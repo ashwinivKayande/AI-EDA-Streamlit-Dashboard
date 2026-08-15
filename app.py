@@ -36,6 +36,7 @@ st.markdown(
     """
     <style>
 
+    /* MAIN APP BACKGROUND */
     .stApp {
         background: linear-gradient(
             135deg,
@@ -44,6 +45,7 @@ st.markdown(
         );
     }
 
+    /* MAIN TITLE */
     .main-title {
         font-size: 46px;
         font-weight: 800;
@@ -51,48 +53,140 @@ st.markdown(
         margin-bottom: 0;
     }
 
+    /* SUBTITLE */
     .subtitle {
         font-size: 18px;
         color: #475569;
         margin-top: -8px;
     }
 
+    /* =====================================================
+       SIDEBAR
+       ===================================================== */
+
     section[data-testid="stSidebar"] {
         background: #0f172a;
     }
 
-    section[data-testid="stSidebar"] * {
+    /* Sidebar text */
+    section[data-testid="stSidebar"] {
         color: white;
     }
 
-    /* Upload box */
-    section[data-testid="stSidebar"] .stFileUploader {
-        background: white;
-        padding: 12px;
-        border-radius: 14px;
-        border: 2px dashed #94a3b8;
+    section[data-testid="stSidebar"] h1,
+    section[data-testid="stSidebar"] h2,
+    section[data-testid="stSidebar"] h3,
+    section[data-testid="stSidebar"] h4,
+    section[data-testid="stSidebar"] p,
+    section[data-testid="stSidebar"] label {
+        color: white;
     }
 
+
+    /* =====================================================
+       CSV UPLOADER
+       ===================================================== */
+
+    section[data-testid="stSidebar"] .stFileUploader {
+        background: white !important;
+        padding: 12px !important;
+        border-radius: 14px !important;
+        border: 2px dashed #94a3b8 !important;
+    }
+
+    /* Upload label */
     section[data-testid="stSidebar"]
     .stFileUploader label {
         color: #0f172a !important;
-        font-weight: 600;
+        font-weight: 600 !important;
     }
 
-    /* Cards */
+    /* Upload dropzone */
+    section[data-testid="stSidebar"]
+    [data-testid="stFileUploaderDropzone"] {
+        background: white !important;
+        border: none !important;
+    }
+
+    /* Dropzone text */
+    section[data-testid="stSidebar"]
+    [data-testid="stFileUploaderDropzone"] * {
+        color: #0f172a;
+    }
+
+    /* =====================================================
+       CHOOSE CSV FILE BUTTON = BLUE
+       ===================================================== */
+
+    section[data-testid="stSidebar"]
+    [data-testid="stFileUploaderDropzone"] button {
+        color: #2563eb !important;
+        background: white !important;
+        border: 1px solid #2563eb !important;
+        font-weight: 700 !important;
+    }
+
+    /* =====================================================
+       200MB per file • CSV = BLACK
+       ===================================================== */
+
+    section[data-testid="stSidebar"]
+    [data-testid="stFileUploaderDropzone"] small {
+        color: #000000 !important;
+        font-weight: 500 !important;
+    }
+
+    /* Upload icon */
+    section[data-testid="stSidebar"]
+    [data-testid="stFileUploaderDropzone"] svg {
+        color: #64748b !important;
+    }
+
+
+    /* =====================================================
+       SIDEBAR DATASET INFO BOX
+       ===================================================== */
+
+    .upload-info-box {
+        background: white;
+        padding: 15px;
+        border-radius: 12px;
+        margin-bottom: 10px;
+        color: #0f172a !important;
+        text-align: center;
+    }
+
+    .upload-info-box b {
+        color: #0f172a !important;
+    }
+
+    .upload-info-box span {
+        color: #64748b !important;
+        font-size: 13px;
+    }
+
+
+    /* =====================================================
+       CARDS
+       ===================================================== */
+
     .glass-card {
-        background: rgba(255,255,255,0.90);
+        background: rgba(255, 255, 255, 0.90);
         border: 1px solid #e2e8f0;
         border-radius: 20px;
         padding: 22px;
-        box-shadow: 0 10px 30px rgba(15,23,42,0.08);
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
     }
 
     .block-title {
         color: #0f172a;
     }
 
-    /* Buttons */
+
+    /* =====================================================
+       BUTTONS
+       ===================================================== */
+
     .stButton button {
         border-radius: 12px;
         background: linear-gradient(
@@ -100,9 +194,13 @@ st.markdown(
             #2563eb,
             #7c3aed
         );
-        color: white;
+        color: white !important;
         border: none;
         font-weight: 600;
+    }
+
+    .stButton button:hover {
+        color: white !important;
     }
 
     </style>
@@ -136,20 +234,10 @@ st.sidebar.markdown("## 📂 Upload Dataset")
 
 st.sidebar.markdown(
     """
-    <div style="
-        background:white;
-        padding:15px;
-        border-radius:12px;
-        margin-bottom:10px;
-        color:#0f172a;
-        text-align:center;
-    ">
+    <div class="upload-info-box">
         <b>Choose a CSV Dataset</b>
         <br>
-        <span style="
-            font-size:13px;
-            color:#64748b;
-        ">
+        <span>
             Upload Employee dataset or any CSV file
         </span>
     </div>
@@ -269,7 +357,7 @@ if df is not None:
 
 
 # =========================================================
-# PDF FUNCTION
+# PDF REPORT FUNCTION
 # =========================================================
 
 def create_pdf_report(data, ai_report=None):
@@ -293,9 +381,9 @@ def create_pdf_report(data, ai_report=None):
 
     elements = []
 
-    # -----------------------------------------------------
+    # =====================================================
     # TITLE
-    # -----------------------------------------------------
+    # =====================================================
 
     elements.append(
         Paragraph(
@@ -308,9 +396,9 @@ def create_pdf_report(data, ai_report=None):
         Spacer(1, 20)
     )
 
-    # -----------------------------------------------------
+    # =====================================================
     # OVERVIEW
-    # -----------------------------------------------------
+    # =====================================================
 
     elements.append(
         Paragraph(
@@ -337,9 +425,9 @@ def create_pdf_report(data, ai_report=None):
         Spacer(1, 20)
     )
 
-    # -----------------------------------------------------
+    # =====================================================
     # DATA TYPES
-    # -----------------------------------------------------
+    # =====================================================
 
     elements.append(
         Paragraph(
@@ -401,9 +489,9 @@ def create_pdf_report(data, ai_report=None):
         Spacer(1, 20)
     )
 
-    # -----------------------------------------------------
+    # =====================================================
     # MISSING VALUES
-    # -----------------------------------------------------
+    # =====================================================
 
     elements.append(
         Paragraph(
@@ -427,9 +515,9 @@ def create_pdf_report(data, ai_report=None):
         Spacer(1, 20)
     )
 
-    # -----------------------------------------------------
+    # =====================================================
     # STATISTICS
-    # -----------------------------------------------------
+    # =====================================================
 
     elements.append(
         Paragraph(
@@ -513,9 +601,9 @@ def create_pdf_report(data, ai_report=None):
             )
         )
 
-    # -----------------------------------------------------
+    # =====================================================
     # DATA QUALITY
-    # -----------------------------------------------------
+    # =====================================================
 
     elements.append(
         Spacer(1, 20)
@@ -565,9 +653,9 @@ def create_pdf_report(data, ai_report=None):
         )
     )
 
-    # -----------------------------------------------------
+    # =====================================================
     # AI REPORT
-    # -----------------------------------------------------
+    # =====================================================
 
     if ai_report:
 
@@ -607,9 +695,9 @@ def create_pdf_report(data, ai_report=None):
                 Spacer(1, 5)
             )
 
-    # -----------------------------------------------------
+    # =====================================================
     # DATA PREVIEW
-    # -----------------------------------------------------
+    # =====================================================
 
     elements.append(
         Spacer(1, 20)
@@ -677,7 +765,9 @@ def create_pdf_report(data, ai_report=None):
         )
     )
 
-    elements.append(preview_table)
+    elements.append(
+        preview_table
+    )
 
     elements.append(
         Spacer(1, 20)
@@ -1058,9 +1148,9 @@ elif page == "Visualizations":
             ]
         )
 
-        # -------------------------------------------------
+        # =================================================
         # DISTRIBUTION
-        # -------------------------------------------------
+        # =================================================
 
         with tab1:
 
@@ -1101,9 +1191,9 @@ elif page == "Visualizations":
                     "No numerical columns found."
                 )
 
-        # -------------------------------------------------
+        # =================================================
         # CORRELATION
-        # -------------------------------------------------
+        # =================================================
 
         with tab2:
 
@@ -1131,9 +1221,9 @@ elif page == "Visualizations":
                     "Need at least 2 numerical columns."
                 )
 
-        # -------------------------------------------------
+        # =================================================
         # RELATIONSHIP
-        # -------------------------------------------------
+        # =================================================
 
         with tab3:
 
@@ -1170,9 +1260,9 @@ elif page == "Visualizations":
                     "Need at least 2 numerical columns."
                 )
 
-        # -------------------------------------------------
+        # =================================================
         # CATEGORICAL
-        # -------------------------------------------------
+        # =================================================
 
         with tab4:
 
@@ -1241,9 +1331,9 @@ elif page == "AI Insights":
             ]
         )
 
-        # -------------------------------------------------
+        # =================================================
         # AI REPORT
-        # -------------------------------------------------
+        # =================================================
 
         with tab1:
 
@@ -1300,9 +1390,9 @@ elif page == "AI Insights":
                             f"AI Error: {e}"
                         )
 
-        # -------------------------------------------------
+        # =================================================
         # CHAT
-        # -------------------------------------------------
+        # =================================================
 
         with tab2:
 
