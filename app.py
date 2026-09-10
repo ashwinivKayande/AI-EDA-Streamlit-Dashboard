@@ -22,227 +22,139 @@ from io import BytesIO
 
 st.set_page_config(
     page_title="AI-Powered EDA Dashboard",
-    page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
 
+
 # =========================================================
-# CSS
+# PROFESSIONAL UI DESIGN
 # =========================================================
+st.markdown("""
+<style>
+/* Main background */
+.stApp {
+    background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 55%, #e0f2fe 100%);
+}
 
-st.markdown(
-    """
-    <style>
+/* Main content width and typography */
+.block-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
 
-    /* MAIN APP BACKGROUND */
-    .stApp {
-        background: linear-gradient(
-            135deg,
-            #f8fafc 0%,
-            #eef2ff 100%
-        );
-    }
+/* Headings */
+h1 {
+    color: #172554 !important;
+    font-weight: 800 !important;
+}
+h2, h3 {
+    color: #1e3a8a !important;
+    font-weight: 700 !important;
+}
 
-    /* MAIN TITLE */
-    .main-title {
-        font-size: 46px;
-        font-weight: 800;
-        color: #0f172a;
-        margin-bottom: 0;
-    }
+/* Sidebar */
+section[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #172554 0%, #1e3a8a 55%, #312e81 100%);
+}
+section[data-testid="stSidebar"] * {
+    color: white !important;
+}
+section[data-testid="stSidebar"] .stRadio label {
+    font-weight: 600;
+}
 
-    /* SUBTITLE */
-    .subtitle {
-        font-size: 18px;
-        color: #475569;
-        margin-top: -8px;
-    }
+/* Buttons */
+.stButton > button {
+    border-radius: 10px;
+    border: 0;
+    background: linear-gradient(90deg, #2563eb, #4f46e5);
+    color: white;
+    font-weight: 700;
+    padding: 0.55rem 1rem;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.20);
+}
+.stButton > button:hover {
+    background: linear-gradient(90deg, #1d4ed8, #4338ca);
+    color: white;
+}
 
-    /* =====================================================
-       SIDEBAR
-       ===================================================== */
+/* Metric cards */
+div[data-testid="stMetric"] {
+    background: rgba(255,255,255,0.92);
+    border: 1px solid #dbeafe;
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 0 4px 14px rgba(30,64,175,0.08);
+}
 
-    section[data-testid="stSidebar"] {
-        background: #0f172a;
-    }
+/* Tabs */
+button[data-baseweb="tab"] {
+    font-weight: 700;
+}
+button[data-baseweb="tab"][aria-selected="true"] {
+    color: #2563eb;
+}
 
-    /* Sidebar text */
-    section[data-testid="stSidebar"] {
-        color: white;
-    }
+/* Expanders */
+div[data-testid="stExpander"] {
+    border: 1px solid #dbeafe;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.75);
+}
 
-    section[data-testid="stSidebar"] h1,
-    section[data-testid="stSidebar"] h2,
-    section[data-testid="stSidebar"] h3,
-    section[data-testid="stSidebar"] h4,
-    section[data-testid="stSidebar"] p,
-    section[data-testid="stSidebar"] label {
-        color: white;
-    }
+/* Dataframes */
+div[data-testid="stDataFrame"] {
+    border-radius: 12px;
+    overflow: hidden;
+}
 
+/* Info / success / warning boxes */
+div[data-testid="stAlert"] {
+    border-radius: 12px;
+}
 
-    /* =====================================================
-       CSV UPLOADER
-       ===================================================== */
+/* File uploader */
+section[data-testid="stFileUploaderDropzone"] {
+    border: 2px dashed #93c5fd;
+    border-radius: 14px;
+    background: rgba(239,246,255,0.75);
+}
 
-    section[data-testid="stSidebar"] .stFileUploader {
-        background: white !important;
-        padding: 12px !important;
-        border-radius: 14px !important;
-        border: 2px dashed #94a3b8 !important;
-    }
+/* Select boxes and inputs */
+div[data-baseweb="select"] > div,
+input {
+    border-radius: 10px !important;
+}
 
-    /* Upload label */
-    section[data-testid="stSidebar"]
-    .stFileUploader label {
-        color: #0f172a !important;
-        font-weight: 600 !important;
-    }
-
-    /* Upload dropzone */
-    section[data-testid="stSidebar"]
-    [data-testid="stFileUploaderDropzone"] {
-        background: white !important;
-        border: none !important;
-    }
-
-    /* Dropzone text */
-    section[data-testid="stSidebar"]
-    [data-testid="stFileUploaderDropzone"] * {
-        color: #0f172a;
-    }
-
-    /* =====================================================
-       CHOOSE CSV FILE BUTTON = BLUE
-       ===================================================== */
-
-    section[data-testid="stSidebar"]
-    [data-testid="stFileUploaderDropzone"] button {
-        color: #2563eb !important;
-        background: white !important;
-        border: 1px solid #2563eb !important;
-        font-weight: 700 !important;
-    }
-
-    /* =====================================================
-       200MB per file • CSV = BLACK
-       ===================================================== */
-
-    section[data-testid="stSidebar"]
-    [data-testid="stFileUploaderDropzone"] small {
-        color: #000000 !important;
-        font-weight: 500 !important;
-    }
-
-    /* Upload icon */
-    section[data-testid="stSidebar"]
-    [data-testid="stFileUploaderDropzone"] svg {
-        color: #64748b !important;
-    }
+/* Horizontal separators */
+hr {
+    border-color: #bfdbfe !important;
+}
+</style>
+""", unsafe_allow_html=True)
 
 
-    /* =====================================================
-       SIDEBAR DATASET INFO BOX
-       ===================================================== */
-
-    .upload-info-box {
-        background: white;
-        padding: 15px;
-        border-radius: 12px;
-        margin-bottom: 10px;
-        color: #0f172a !important;
-        text-align: center;
-    }
-
-    .upload-info-box b {
-        color: #0f172a !important;
-    }
-
-    .upload-info-box span {
-        color: #64748b !important;
-        font-size: 13px;
-    }
-
-
-    /* =====================================================
-       CARDS
-       ===================================================== */
-
-    .glass-card {
-        background: rgba(255, 255, 255, 0.90);
-        border: 1px solid #e2e8f0;
-        border-radius: 20px;
-        padding: 22px;
-        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
-    }
-
-    .block-title {
-        color: #0f172a;
-    }
-
-
-    /* =====================================================
-       BUTTONS
-       ===================================================== */
-
-    .stButton button {
-        border-radius: 12px;
-        background: linear-gradient(
-            135deg,
-            #2563eb,
-            #7c3aed
-        );
-        color: white !important;
-        border: none;
-        font-weight: 600;
-    }
-
-    .stButton button:hover {
-        color: white !important;
-    }
-
-    </style>
-    """,
-    unsafe_allow_html=True
-)
 
 
 # =========================================================
 # HEADER
 # =========================================================
 
-st.markdown(
-    '<p class="main-title">📊 AI-Powered EDA Dashboard</p>',
-    unsafe_allow_html=True
-)
-
-st.markdown(
-    '<p class="subtitle">'
-    'Explore your dataset, visualize patterns and generate AI insights.'
-    '</p>',
-    unsafe_allow_html=True
-)
+st.title("AI-Powered EDA Dashboard")
+st.write("Explore your dataset, visualize patterns and generate AI insights.")
 
 
 # =========================================================
 # SIDEBAR - UPLOAD
 # =========================================================
 
-st.sidebar.markdown("## 📂 Upload Dataset")
+st.sidebar.markdown("## Upload Dataset")
 
-st.sidebar.markdown(
-    """
-    <div class="upload-info-box">
-        <b>Choose a CSV Dataset</b>
-        <br>
-        <span>
-            Upload Employee dataset or any CSV file
-        </span>
-    </div>
-    """,
-    unsafe_allow_html=True
+st.sidebar.info(
+    "Choose a CSV Dataset\n\n"
+    "Upload Employee dataset or any CSV file."
 )
 
 uploaded_file = st.sidebar.file_uploader(
@@ -259,7 +171,7 @@ uploaded_file = st.sidebar.file_uploader(
 st.sidebar.markdown("---")
 
 page = st.sidebar.radio(
-    "📌 Navigation",
+    "Navigation",
     [
         "Dashboard",
         "Visualizations",
@@ -285,13 +197,13 @@ if uploaded_file is not None:
         filtered_df = df.copy()
 
         st.sidebar.success(
-            f"✅ {uploaded_file.name}"
+            f"{uploaded_file.name}"
         )
 
     except Exception as e:
 
         st.sidebar.error(
-            f"❌ Error loading CSV: {e}"
+            f"Error loading CSV: {e}"
         )
 
 
@@ -303,7 +215,7 @@ if df is not None:
 
     st.sidebar.markdown("---")
 
-    st.sidebar.markdown("### 🔎 Filters")
+    st.sidebar.markdown("### Filters")
 
     categorical_cols = (
         df
@@ -793,12 +705,12 @@ def create_pdf_report(data, ai_report=None):
 
 if page == "Dashboard":
 
-    st.subheader("📊 Dataset Overview")
+    st.subheader("Dataset Overview")
 
     if df is None:
 
         st.info(
-            "👈 Please upload a CSV file from the sidebar."
+            "Please upload a CSV file from the sidebar."
         )
 
     else:
@@ -842,28 +754,28 @@ if page == "Dashboard":
         with c1:
 
             st.metric(
-                "📊 Rows",
+                "Rows",
                 f"{rows:,}"
             )
 
         with c2:
 
             st.metric(
-                "📋 Columns",
+                "Columns",
                 f"{cols:,}"
             )
 
         with c3:
 
             st.metric(
-                "⚠️ Missing Values",
+                "Missing Values",
                 f"{missing:,}"
             )
 
         with c4:
 
             st.metric(
-                "🔁 Duplicate Rows",
+                "Duplicate Rows",
                 f"{duplicates:,}"
             )
 
@@ -877,36 +789,15 @@ if page == "Dashboard":
 
         with left:
 
-            st.markdown(
-                """
-                <div class="glass-card">
-                <h4 class="block-title">
-                💾 Memory Usage
-                </h4>
-                """,
-                unsafe_allow_html=True
-            )
+            st.subheader("Memory Usage")
 
             st.info(
                 f"{memory} MB"
             )
 
-            st.markdown(
-                "</div>",
-                unsafe_allow_html=True
-            )
-
         with right:
 
-            st.markdown(
-                """
-                <div class="glass-card">
-                <h4 class="block-title">
-                🔤 Data Types
-                </h4>
-                """,
-                unsafe_allow_html=True
-            )
+            st.subheader("Data Types")
 
             dtype_df = (
                 data.dtypes
@@ -926,36 +817,18 @@ if page == "Dashboard":
                 hide_index=True
             )
 
-            st.markdown(
-                "</div>",
-                unsafe_allow_html=True
-            )
-
         st.write("")
 
         # =================================================
         # DATA PREVIEW
         # =================================================
 
-        st.markdown(
-            """
-            <div class="glass-card">
-            <h4 class="block-title">
-            👀 Dataset Preview
-            </h4>
-            """,
-            unsafe_allow_html=True
-        )
+        st.subheader("Dataset Preview")
 
         st.dataframe(
             data.head(10),
             use_container_width=True,
             hide_index=True
-        )
-
-        st.markdown(
-            "</div>",
-            unsafe_allow_html=True
         )
 
         st.write("")
@@ -964,15 +837,7 @@ if page == "Dashboard":
         # STATISTICS
         # =================================================
 
-        st.markdown(
-            """
-            <div class="glass-card">
-            <h4 class="block-title">
-            📈 Statistical Summary
-            </h4>
-            """,
-            unsafe_allow_html=True
-        )
+        st.subheader("Statistical Summary")
 
         try:
 
@@ -989,26 +854,13 @@ if page == "Dashboard":
                 "Statistical summary is not available."
             )
 
-        st.markdown(
-            "</div>",
-            unsafe_allow_html=True
-        )
-
         st.write("")
 
         # =================================================
         # DATA QUALITY
         # =================================================
 
-        st.markdown(
-            """
-            <div class="glass-card">
-            <h4 class="block-title">
-            ✅ Data Quality Score
-            </h4>
-            """,
-            unsafe_allow_html=True
-        )
+        st.subheader("Data Quality Score")
 
         total_cells = rows * cols
 
@@ -1039,26 +891,13 @@ if page == "Dashboard":
             f"Overall Data Quality: {score}/100"
         )
 
-        st.markdown(
-            "</div>",
-            unsafe_allow_html=True
-        )
-
         st.write("")
 
         # =================================================
         # MISSING VALUES
         # =================================================
 
-        st.markdown(
-            """
-            <div class="glass-card">
-            <h4 class="block-title">
-            🔍 Missing Values
-            </h4>
-            """,
-            unsafe_allow_html=True
-        )
+        st.subheader("Missing Values")
 
         missing_df = (
             data.isnull()
@@ -1092,13 +931,8 @@ if page == "Dashboard":
         else:
 
             st.success(
-                "🎉 No missing values found!"
+                "No missing values found!"
             )
-
-        st.markdown(
-            "</div>",
-            unsafe_allow_html=True
-        )
 
 
 # =========================================================
@@ -1108,7 +942,7 @@ if page == "Dashboard":
 elif page == "Visualizations":
 
     st.subheader(
-        "📊 Interactive Visualizations"
+        "Interactive Visualizations"
     )
 
     if df is None:
@@ -1311,7 +1145,7 @@ elif page == "Visualizations":
 elif page == "AI Insights":
 
     st.subheader(
-        "🤖 AI-Powered Insights"
+        "AI-Powered Insights"
     )
 
     if df is None:
@@ -1347,7 +1181,7 @@ elif page == "AI Insights":
             )
 
             if st.button(
-                "🤖 Generate AI Insights"
+                "Generate AI Insights"
             ):
 
                 with st.spinner(
@@ -1364,7 +1198,7 @@ elif page == "AI Insights":
                         )
 
                         st.success(
-                            "✅ AI analysis completed!"
+                            "AI analysis completed!"
                         )
 
                         st.markdown(
@@ -1376,7 +1210,7 @@ elif page == "AI Insights":
                         )
 
                         st.download_button(
-                            "📥 Download AI Report",
+                            "Download AI Report",
                             data=insights,
                             file_name=(
                                 "AI_Insights_Report.txt"
@@ -1397,7 +1231,7 @@ elif page == "AI Insights":
         with tab2:
 
             st.markdown(
-                "### 💬 Ask Questions About Your Dataset"
+                "### Ask Questions About Your Dataset"
             )
 
             question = st.text_input(
@@ -1409,7 +1243,7 @@ elif page == "AI Insights":
             )
 
             if st.button(
-                "💬 Ask AI"
+                "Ask AI"
             ):
 
                 if question.strip():
@@ -1429,7 +1263,7 @@ elif page == "AI Insights":
                             )
 
                             st.success(
-                                "✅ Answer generated!"
+                                "Answer generated!"
                             )
 
                             st.markdown(
@@ -1460,7 +1294,7 @@ elif page == "AI Insights":
 elif page == "Report":
 
     st.subheader(
-        "📄 Complete AI Report"
+        "Complete AI Report"
     )
 
     if df is None:
@@ -1473,29 +1307,12 @@ elif page == "Report":
 
         data = filtered_df
 
-        st.markdown(
-            """
-            <div class="glass-card">
-
-            <h3 class="block-title">
-            📄 Generate Complete AI PDF
-            </h3>
-
-            <p>
-            Create a professional PDF containing
-            dataset analysis, data quality,
-            statistics and AI-generated insights.
-            </p>
-
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+        st.subheader("Generate Complete AI PDF")
 
         st.write("")
 
         if st.button(
-            "🤖 Generate Complete AI PDF"
+            "Generate Complete AI PDF"
         ):
 
             with st.spinner(
@@ -1519,11 +1336,11 @@ elif page == "Report":
                     )
 
                     st.success(
-                        "✅ Complete AI PDF generated successfully!"
+                        "Complete AI PDF generated successfully!"
                     )
 
                     st.download_button(
-                        "⬇️ Download Complete AI Report",
+                        "Download Complete AI Report",
                         data=pdf_file,
                         file_name=(
                             "AI_Powered_EDA_Report.pdf"
